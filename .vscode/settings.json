@@ -1,0 +1,25 @@
+{
+  "deepscan.ignoreConfirmWarning": true,
+  "python.pythonPath": "/home/zafiron/.virtualenvs/django3/bin/python",
+  "prettier.tabWidth": 4,
+  "prettier.useTabs": false,
+  "prettier.arrowParens": "always",
+  "editor.tabSize": 4,
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.python",
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4
+  },
+  "python.linting.pylintArgs": [
+    "--load-plugins=pylint_django",
+    "--disable=C0111",
+    "--disable=no-else-return",
+    "--disable=W0622",
+    "--disable=E1101",
+    "--disable=E111",
+    "--disable=W0311",
+    "--disable=no-self-use",
+    "--disable=abstract-method",
+    "--enable=W0614",
+],
+}
