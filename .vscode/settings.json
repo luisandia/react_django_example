@@ -1,6 +1,12 @@
 {
   "deepscan.ignoreConfirmWarning": true,
   "python.pythonPath": "/home/zafiron/.virtualenvs/django3/bin/python",
+  "python.analysis.extraPaths": [
+    // "/home/zafiron/proyectos/dekoding/ianua/ianua_backend/",
+    // "./ianua_backend",
+    "/home/zafiron/.virtualenvs/django3/lib/python3.8/site-packages/"
+  ],
+
   "prettier.tabWidth": 4,
   "prettier.useTabs": false,
   "prettier.arrowParens": "always",
