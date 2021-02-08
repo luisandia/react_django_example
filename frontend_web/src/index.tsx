@@ -3,10 +3,18 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Route, BrowserRouter } from 'react-router-dom';
+import { CookiesProvider } from 'react-cookie';
+import Auth from './components/Auth'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <CookiesProvider>
+        <BrowserRouter>
+          <Route exact path="/" component={Auth} />
+          <Route exact path="/movies" component={App} />
+        </BrowserRouter>
+      </CookiesProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

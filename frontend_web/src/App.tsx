@@ -6,6 +6,8 @@ import { faFilm, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { useCookies } from 'react-cookie';
 import { useFetch } from './hooks/useFetch';
 import MovieList from './components/MovieList';
+import MovieDetails from './components/MovieDetails';
+import MovieForm from './components/MovieForm';
 
 function App() {
     const [movies, setMovies] = useState<any>([]);
@@ -18,20 +20,20 @@ function App() {
         setMovies(data);
     }, [data]);
 
-    // useEffect(() => {
-    //     if (!token['mr-token']) window.location.href = '/';
-    // }, [token]);
+    useEffect(() => {
+        if (!token['mr-token']) window.location.href = '/';
+    }, [token]);
 
-    const loadMovie = (movie:any) => {
+    const loadMovie = (movie: any) => {
         setSelectedMovie(movie);
         setEditedMovie(null);
     };
-    const editClicked = (movie:any) => {
+    const editClicked = (movie: any) => {
         setEditedMovie(movie);
         setSelectedMovie(null);
     };
-    const udpatedMovie = (movie:any) => {
-        const newMovies = movies.map((mov:any) => {
+    const udpatedMovie = (movie: any) => {
+        const newMovies = movies.map((mov: any) => {
             if (mov.id === movie.id) {
                 return movie;
             }
@@ -44,12 +46,12 @@ function App() {
         setSelectedMovie(null);
     };
 
-    const movieCreated = (movie:any) => {
+    const movieCreated = (movie: any) => {
         const newMovies = [...movies, movie];
         setMovies(newMovies);
     };
-    const removeClicked = (movie:any) => {
-        const newMovies = movies.filter((mov:any) => mov.id !== movie.id);
+    const removeClicked = (movie: any) => {
+        const newMovies = movies.filter((mov: any) => mov.id !== movie.id);
         setMovies(newMovies);
     };
     const logoutUser = () => {
@@ -66,7 +68,7 @@ function App() {
                     <FontAwesomeIcon icon={faFilm} />
                     <span>Movie rater</span>
                 </h1>
-                <FontAwesomeIcon icon={faSignOutAlt} onClick={() => {}} />
+                <FontAwesomeIcon icon={faSignOutAlt} onClick={logoutUser} />
             </header>
             <div className="layout">
                 <div>
@@ -78,6 +80,14 @@ function App() {
                     />
                     <button onClick={newMovie}>New movie</button>
                 </div>
+                <MovieDetails movie={selectedMovie} updateMovie={loadMovie} />
+                {editedMovie ? (
+                    <MovieForm
+                        movie={editedMovie}
+                        udpatedMovie={udpatedMovie}
+                        movieCreated={movieCreated}
+                    />
+                ) : null}
             </div>
         </div>
     );
