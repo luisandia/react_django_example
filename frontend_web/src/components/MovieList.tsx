@@ -1,39 +1,39 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { API } from '../api-service';
-import { useCookies } from 'react-cookie';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from 'react'
+import { useCookies } from 'react-cookie'
+import { Movie } from '../ApiGenerated'
+// import { API } from '../api-service'
 
 function MovieList(props: any) {
-  const [token] = useCookies(['mr-token']);
+  const { movieClicked, removeClicked, editClicked } = props
+  // const [token] = useCookies(['mr-token'])
 
-  const movieClicked = (movie:any) => (evt:any) => {
-    props.movieClicked(movie);
-  };
-  const editClicked = (movie:any) => {
-    props.editClicked(movie);
-  };
-  const removeClicked = (movie:any) => {
-    API.deleteMovie(movie.id, token['mr-token'])
-      .then(() => props.removeClicked(movie))
-      .catch((error) => console.log());
-  };
+  // const movieClicked = (movie: Movie) => () => {
+  //   props.movieClicked(movie)
+  // }
+  // const editClicked = (movie: any) => {
+  //   props.editClicked(movie)
+  // }
+
+  const { movies } = props
 
   return (
     <div>
-      {props.movies &&
-        props.movies.map((movie:any) => {
-          return (
-            <div key={movie.id} className="movie-item">
-              <h2 onClick={movieClicked(movie)}>{movie.title}</h2>
-              <FontAwesomeIcon icon={faEdit} onClick={() => editClicked(movie)} />
-              <FontAwesomeIcon icon={faTrash} onClick={() => removeClicked(movie)} />
-            </div>
-          );
-        })}
+      {movies &&
+        movies.map((movie: Movie) => (
+          <div key={movie.id} className="movie-item">
+            <h2 onClick={movieClicked(movie)}>{movie.title}</h2>
+            {/* <h2>{movie.title}</h2> */}
+            <FontAwesomeIcon icon={faEdit} onClick={editClicked(movie)} />
+            <FontAwesomeIcon
+              icon={faTrash}
+              onClick={() => removeClicked(movie)}
+            />
+          </div>
+        ))}
     </div>
-  );
+  )
 }
 
-export default MovieList;
+export default MovieList
