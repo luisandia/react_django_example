@@ -9,15 +9,13 @@ function useFetch() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<any>()
   const [token] = useCookies(['mr-token'])
-
+  console.log("token ",token)
   if (token) {
     OpenAPI.HEADERS = {
-      // 'Content-Type': 'application/json',
-      Authorization: `Token ${token}`,
+      Authorization: `Token ${token['mr-token']}`,
     }
   } else {
     OpenAPI.HEADERS = {
-      // 'Content-Type': 'application/json',
       Authorization: ``,
     }
   }

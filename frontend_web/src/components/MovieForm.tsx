@@ -33,9 +33,6 @@ function MovieForm(props: Props) {
     } catch (err) {
       console.error(err)
     }
-    // API.updateMovie(props.movie.id, { title, description }, token['mr-token'])
-    //   .then((resp) => props.updatedMovie(resp))
-    //   .catch((error) => console.log(error))
   }
 
   const createClicked = async () => {
@@ -47,9 +44,6 @@ function MovieForm(props: Props) {
     } catch (err) {
       console.error(err)
     }
-    // API.createMovie({ title, description }, token['mr-token'])
-    //   .then((resp) => props.movieCreated(resp))
-    //   .catch((error) => console.log(error))
   }
 
   const isDisabled = title.length === 0 || description.length === 0

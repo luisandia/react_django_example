@@ -37,7 +37,6 @@ module.exports = {
     'no-console': [WARN, { allow: ['info', 'warn', 'error'] }],
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': [OFF],
-    'no-unused-vars': WARN,
     'no-debugger': ['off'],
     'import/prefer-default-export': OFF,
     'import/extensions': [
@@ -53,6 +52,8 @@ module.exports = {
     'jsx-a11y/click-events-have-key-events': [OFF],
     'jsx-a11y/no-noninteractive-element-interactions': [OFF],
     'jsx-a11y/label-has-associated-control': [OFF],
+    'no-unused-vars': [OFF],
+    '@typescript-eslint/no-unused-vars': [OFF],
     // "prettier/prettier": "error",
   },
 }

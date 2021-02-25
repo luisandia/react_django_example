@@ -503,6 +503,8 @@ components:
         avg_rating:
           type: string
           readOnly: true
+        stars:
+          type: integer
       required:
       - title
       - description

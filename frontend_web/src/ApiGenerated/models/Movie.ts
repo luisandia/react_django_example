@@ -8,4 +8,5 @@ export type Movie = {
     description: string;
     readonly no_of_ratings?: string;
     readonly avg_rating?: string;
+    stars?: number;
 }

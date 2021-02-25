@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React, { useState } from 'react'
 import { useCookies } from 'react-cookie'
 import uuid from 'react-uuid'
 import { ApiService } from '../ApiGenerated'
-import { request } from '../ApiGenerated/core/request';
 
 function MovieDetails(props: any) {
   const [highlighted, setHighlighted] = useState(-1)
@@ -15,36 +14,24 @@ function MovieDetails(props: any) {
   const highlightRate = (high: any) => (evt: any) => {
     setHighlighted(high)
   }
-  const rateClicked =  (rate: any) => async (evt: any) => {
-  await request({
-      method: 'POST',
-      path: `/api/movies/${movie.id}/rate_movie/`,
-      body: { stars: rate + 1 }
-  });
-  getDetails()
-    // ApiService.rateMovieMovie(movie.id,{ stars: rate + 1 })
-    // fetch(`http://127.0.0.1:8000/api/movies/${movie.id}/rate_movie/`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     Authorization: `Token ${token['mr-token']}`,
-    //   },
-    //   body: JSON.stringify({ stars: rate + 1 }),
-    // })
-      // .then(() => getDetails())
-      // .catch((error) => console.log(error))
+
+  const rateClicked = (rate: any) => async (evt: any) => {
+    try {
+      movie.stars = rate + 1
+      await ApiService.rateMovieMovie(movie.id, movie)
+      getDetails()
+    } catch (e) {
+      console.error(e)
+    }
   }
-  const getDetails = () => {
-    fetch(`http://127.0.0.1:8000/api/movies/${movie.id}/`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Token ${token['mr-token']}`,
-      },
-    })
-      .then((resp) => resp.json())
-      .then((resp) => props.updateMovie(resp))
-      .catch((error) => console.log(error))
+
+  const getDetails = async () => {
+    try {
+      const response = await ApiService.retrieveMovie(movie.id)
+      props.updateMovie(response)
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   return (
