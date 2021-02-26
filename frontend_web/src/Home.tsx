@@ -2,7 +2,7 @@ import { faFilm, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
-import { ApiService, Movie } from './ApiGenerated'
+import { ApiService, Movie } from './Generated'
 import './App.css'
 import MovieDetails from './components/MovieDetails'
 import MovieForm from './components/MovieForm'
@@ -53,7 +53,7 @@ function Home() {
   }
   const removeClicked = async (movie: Movie) => {
     try {
-      await ApiService.destroyMovie(movie.id!.toString()) //  API.deleteMovie(movie.id, token['mr-token'])
+      await ApiService.destroyMovie(movie.id!.toString())
       const newMovies = movies.filter((mov: Movie) => mov.id !== movie.id)
       setMovies(newMovies)
     } catch (er) {

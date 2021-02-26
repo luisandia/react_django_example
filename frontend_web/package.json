@@ -28,7 +28,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "types:generate": "openapi --input ../backend/openapi-schema.yml --output ./src/ApiGenerated"
+    "types:generate": "openapi --input ../backend/openapi-schema.yml --output ./src/ApiGenerated",
+    "format": "prettier '**/*.{ts,tsx,js,jsx,json,css}' --write"
   },
   "eslintConfig": {
     "extends": [

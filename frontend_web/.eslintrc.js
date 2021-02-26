@@ -54,6 +54,9 @@ module.exports = {
     'jsx-a11y/label-has-associated-control': [OFF],
     'no-unused-vars': [OFF],
     '@typescript-eslint/no-unused-vars': [OFF],
+    'react/require-default-props': [OFF],
+    'react/prop-types': [OFF],
+    camelcase: [ERROR, { ignoreDestructuring: true, properties: 'never' }],
     // "prettier/prettier": "error",
   },
 }

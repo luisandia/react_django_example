@@ -1,7 +1,7 @@
 import React from 'react'
 import { CookiesProvider } from 'react-cookie'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import { OpenAPI } from './ApiGenerated'
+import { OpenAPI } from './Generated'
 import Auth from './components/Auth'
 import Home from './Home'
 

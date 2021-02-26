@@ -1,24 +1,27 @@
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
-import { useCookies } from 'react-cookie'
 import uuid from 'react-uuid'
-import { ApiService } from '../ApiGenerated'
+import { ApiService, Movie } from '../Generated'
 
-function MovieDetails(props: any) {
+interface Props {
+  movie?: Movie | null
+  updateMovie: (movie: Movie) => void
+}
+
+const MovieDetails = (props: Props) => {
   const [highlighted, setHighlighted] = useState(-1)
-  const [token] = useCookies(['mr-token'])
-
   const { movie } = props
 
-  const highlightRate = (high: any) => (evt: any) => {
+  const highlightRate = (high: any) => () => {
     setHighlighted(high)
   }
 
-  const rateClicked = (rate: any) => async (evt: any) => {
+  const rateClicked = (rate: any) => async () => {
     try {
-      movie.stars = rate + 1
-      await ApiService.rateMovieMovie(movie.id, movie)
+      movie!.stars = rate + 1
+      const { id } = movie!
+      await ApiService.rateMovieMovie(id!.toString(), movie!)
       getDetails()
     } catch (e) {
       console.error(e)
@@ -27,12 +30,15 @@ function MovieDetails(props: any) {
 
   const getDetails = async () => {
     try {
-      const response = await ApiService.retrieveMovie(movie.id)
+      const { id } = movie!
+      const response = await ApiService.retrieveMovie(id!.toString())
       props.updateMovie(response)
     } catch (e) {
       console.error(e)
     }
   }
+
+  const avgRating = +movie?.avg_rating!
 
   return (
     <>
@@ -42,28 +48,28 @@ function MovieDetails(props: any) {
           <p>{movie.description}</p>
           <FontAwesomeIcon
             icon={faStar}
-            className={movie.avg_rating > 0 ? 'orange' : ''}
+            className={avgRating! > 0 ? 'orange' : ''}
           />
           <FontAwesomeIcon
             icon={faStar}
-            className={movie.avg_rating > 1 ? 'orange' : ''}
+            className={avgRating > 1 ? 'orange' : ''}
           />
           <FontAwesomeIcon
             icon={faStar}
-            className={movie.avg_rating > 2 ? 'orange' : ''}
+            className={avgRating > 2 ? 'orange' : ''}
           />
           <FontAwesomeIcon
             icon={faStar}
-            className={movie.avg_rating > 3 ? 'orange' : ''}
+            className={avgRating > 3 ? 'orange' : ''}
           />
           <FontAwesomeIcon
             icon={faStar}
-            className={movie.avg_rating > 4 ? 'orange' : ''}
+            className={avgRating > 4 ? 'orange' : ''}
           />
           ({movie.no_of_ratings})
           <div className="rate-container">
             <h2>Rate it</h2>
-            {[...Array(5)].map((e, i) => (
+            {[...Array(5)].map((_, i) => (
               <FontAwesomeIcon
                 key={uuid()}
                 icon={faStar}

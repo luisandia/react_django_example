@@ -1,10 +1,7 @@
 import React from 'react'
 import { CookiesProvider } from 'react-cookie'
 import ReactDOM from 'react-dom'
-import { BrowserRouter, Route } from 'react-router-dom'
-import ApiContext from './Api/ApiContext'
 import App from './App'
-// import Auth from './components/Auth'
 import './index.css'
 import reportWebVitals from './reportWebVitals'
 

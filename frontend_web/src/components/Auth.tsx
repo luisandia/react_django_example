@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
-import { AuthService, OpenAPI } from '../ApiGenerated'
+import { ApiService, AuthService, OpenAPI } from '../Generated'
 
 function Auth() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [isLoginView, setIsLoginView] = useState(true)
-
   const [token, setToken] = useCookies(['mr-token'])
 
   useEffect(() => {
@@ -14,32 +13,29 @@ function Auth() {
   }, [token])
 
   const loginClicked = async () => {
-    // API.loginUser({ username, password })
-    //   .then((resp) => setToken('mr-token', resp.token))
-    //   .catch((error) => console.log(error))
     try {
       const response = await AuthService.createAuthToken({
         username,
         password,
       })
       setToken('mr-token', response.token)
-      // debugger;
-      console.log(response)
       OpenAPI.HEADERS = {
         Authorization: `Token ${response.token}`,
       }
-      // OpenAPI.TOKEN = response.token
-      // console.log("mi config ", OpenAPI)
-      // console.log(a)
     } catch (e) {
       console.error(e)
     }
   }
-  const registerClicked = () => {
-    // API.registerUser({ username, password })
-    //   .then(() => loginClicked())
-    //   .catch((error) => console.log(error))
+
+  const registerClicked = async () => {
+    try {
+      await ApiService.createUser({ username, password })
+      loginClicked()
+    } catch (e) {
+      console.error(e)
+    }
   }
+
   const isDisabled = username.length === 0 || password.length === 0
 
   return (

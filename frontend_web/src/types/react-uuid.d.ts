@@ -1,1 +1,1 @@
-declare module 'react-uuid';
+declare module 'react-uuid'

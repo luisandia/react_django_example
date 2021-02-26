@@ -1,7 +1,7 @@
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
-import { Movie } from '../ApiGenerated'
+import { Movie } from '../Generated'
 
 interface Props {
   movieClicked: (movie: Movie) => void

@@ -22,7 +22,6 @@ class MovieViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['POST'])
     def rate_movie(self, request, pk=None):
-        print(request.data)
         if 'stars' in request.data:
             movie = Movie.objects.get(id=pk)
             stars = request.data['stars']

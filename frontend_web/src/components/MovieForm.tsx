@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 // import { API } from '../api-service';
 import { useCookies } from 'react-cookie'
-import { ApiService, Movie } from '../ApiGenerated'
+import { ApiService, Movie } from '../Generated'
 
 interface Props {
   movie: Movie
@@ -12,7 +12,6 @@ interface Props {
 function MovieForm(props: Props) {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const [token] = useCookies(['mr-token'])
 
   const { movie } = props
 

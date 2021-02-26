@@ -1,0 +1,10 @@
+node_modules/
+coverage/
+package.json
+package-lock.json
+vendor
+.jest/
+.vscode/
+Generated/
+src/api/graphql/remote.schema.json
+public/
