@@ -1,14 +1,12 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { OpenAPI } from './Generated';
+import MainStackNavigator from './navigators/MainStackNavigator';
+
+OpenAPI.BASE = 'http://192.168.0.28:8000';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  return <MainStackNavigator />;
 }
 
 const styles = StyleSheet.create({
