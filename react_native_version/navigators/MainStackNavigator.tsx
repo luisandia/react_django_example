@@ -5,16 +5,25 @@ import {
 } from '@react-navigation/stack';
 import React from 'react';
 import { Button } from 'react-native';
-import Auth from '../components/Auth';
-import MovieDetail from '../components/MovieDetail';
-import MovieList from '../components/MovieList';
+import Auth, { AuthRoute } from '../components/Auth';
+import MovieDetail, {
+  MovieDetailRoute,
+  MovieParamsRoute,
+} from '../components/MovieDetail';
+import MovieList, { MovieListRoute } from '../components/MovieList';
 
-const Stack = createStackNavigator();
+export type StackParamList = {
+  [MovieListRoute]: { title: string };
+  [MovieDetailRoute]: MovieParamsRoute;
+  [AuthRoute]: { title: string };
+};
+
+const Stack = createStackNavigator<StackParamList>();
 
 function MyStack() {
   return (
     <Stack.Navigator
-      initialRouteName="MovieList"
+      initialRouteName={MovieListRoute}
       screenOptions={({ navigation }) => ({
         headerStyle: {
           backgroundColor: 'orange',
@@ -38,7 +47,7 @@ function MyStack() {
       })}
     >
       <Stack.Screen
-        name="MovieList"
+        name={MovieListRoute}
         component={MovieList}
         options={({ navigation }) => ({
           headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
@@ -46,7 +55,7 @@ function MyStack() {
         })}
       />
       <Stack.Screen
-        name="Detail"
+        name={MovieDetailRoute}
         component={MovieDetail}
         options={(props) => {
           const { route } = props;
@@ -57,7 +66,7 @@ function MyStack() {
         }}
       />
       <Stack.Screen
-        name="Auth"
+        name={AuthRoute}
         component={Auth}
         options={{
           headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,

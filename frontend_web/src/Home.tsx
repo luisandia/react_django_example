@@ -14,7 +14,6 @@ function Home() {
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null)
   const [editedMovie, setEditedMovie] = useState<Movie | null>(null)
   const [token, , removeCookie] = useCookies(['mr-token'])
-
   const [data, loading, error] = useFetch()
 
   useEffect(() => {
@@ -29,10 +28,12 @@ function Home() {
     setSelectedMovie(movie)
     setEditedMovie(null)
   }
+
   const editClicked = (movie: Movie) => {
     setEditedMovie(movie)
     setSelectedMovie(null)
   }
+
   const updatedMovie = (movie: Movie) => {
     const newMovies = movies.map((mov: any) => {
       if (mov.id === movie.id) {
@@ -42,6 +43,7 @@ function Home() {
     })
     setMovies(newMovies)
   }
+
   const newMovie = () => {
     setEditedMovie({ title: '', description: '' })
     setSelectedMovie(null)
@@ -51,6 +53,7 @@ function Home() {
     const newMovies = [...movies, movie]
     setMovies(newMovies)
   }
+
   const removeClicked = async (movie: Movie) => {
     try {
       await ApiService.destroyMovie(movie.id!.toString())
@@ -60,6 +63,7 @@ function Home() {
       console.error(er)
     }
   }
+
   const logoutUser = () => {
     removeCookie('mr-token')
   }

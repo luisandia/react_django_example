@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 import { ApiService, AuthService, OpenAPI } from '../Generated';
 
+export const AuthRoute = 'Auth';
+
 const Auth = (props: any) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

@@ -1,6 +1,7 @@
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import React, { useState, useEffect } from 'react';
+import { RouteProp } from '@react-navigation/core';
+import React, { useState } from 'react';
 import {
   Alert,
   Button,
@@ -10,12 +11,25 @@ import {
   View,
 } from 'react-native';
 import { ApiService, Movie } from '../Generated';
+import { StackParamList } from '../navigators/MainStackNavigator';
 
-interface Props {
-  movie?: Movie | null;
+export const MovieDetailRoute = 'MovieDetail';
+
+type ProfileScreenNavigationProp = RouteProp<
+  StackParamList,
+  typeof MovieDetailRoute
+>;
+
+export interface MovieParamsRoute {
+  title: string;
+  movie: Movie;
 }
 
-const MovieDetail = (props: any) => {
+interface Props {
+  route: ProfileScreenNavigationProp;
+}
+
+const MovieDetail = (props: Props) => {
   const [highlight, setHeighlight] = useState(-1);
 
   const { movie } = props.route.params;

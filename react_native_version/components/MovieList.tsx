@@ -13,6 +13,8 @@ import {
 import { Movie } from '../Generated';
 import { useFetch } from '../hooks/useFetch';
 
+export const MovieListRoute = 'MovieList';
+
 interface Props {}
 
 const MovieList = (props: Props) => {
