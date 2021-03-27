@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import {
   Button,
@@ -10,12 +11,27 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Movie } from '../Generated';
+import { ApiService, Movie } from '../Generated';
 import { useFetch } from '../hooks/useFetch';
+import { StackParamList } from '../navigators/MainStackNavigator';
+import { AuthRoute } from './Auth';
+import { MovieDetailRoute } from './MovieDetail';
 
 export const MovieListRoute = 'MovieList';
 
-interface Props {}
+type ProfileScreenNavigationProp = StackNavigationProp<
+  StackParamList,
+  typeof MovieListRoute
+>;
+
+export interface MovieListParamsRoute {
+  title: string;
+  updateMovies(movie: Movie): void;
+}
+
+interface Props {
+  navigation: ProfileScreenNavigationProp;
+}
 
 const MovieList = (props: Props) => {
   const navigation = useNavigation();
@@ -26,30 +42,48 @@ const MovieList = (props: Props) => {
   const [data, loading, error] = useFetch();
 
   useEffect(() => {
-    setMovies(data);
-  }, [data]);
-
-  const movieClicked = (movie: Movie) => {
-    navigation.navigate('Detail', {
-      movie,
-      title: movie.title,
-      // token,
-    });
-  };
-  useEffect(() => {
     const getData = async () => {
       const token = await AsyncStorage.getItem('mr-token');
-      if (!token) {
-        props.navigation.navigate('Auth');
+      if (token) {
+        const response = await ApiService.listMovies();
+        setMovies(response);
+      } else {
+        props.navigation.navigate(AuthRoute);
       }
     };
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setMovies(data);
+    props.navigation.setParams({ updateMovies });
+  }, [data]);
+
+  const updateMovies = (movie: Movie) => {
+    setMovies([...movies, movie]);
+  };
+
+  const movieClicked = (movie: Movie) => {
+    navigation.navigate(MovieDetailRoute, {
+      movie,
+      title: movie.title,
+    });
+  };
+
   const logoutUser = async () => {
     AsyncStorage.removeItem('mr-token');
-    props.navigation.navigate('Auth');
+    props.navigation.navigate(AuthRoute);
   };
+
+  if (loading) {
+    return (
+      <View>
+        <Text>loading</Text>
+      </View>
+    );
+  }
+
   return (
     <View>
       <Image

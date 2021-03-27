@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
+import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import {
   Alert,
@@ -10,10 +11,25 @@ import {
   View,
 } from 'react-native';
 import { ApiService, AuthService, OpenAPI } from '../Generated';
+import { StackParamList } from '../navigators/MainStackNavigator';
+import { MovieListRoute } from './MovieList';
 
 export const AuthRoute = 'Auth';
 
-const Auth = (props: any) => {
+type AuthScreenNavigationProp = StackNavigationProp<
+  StackParamList,
+  typeof AuthRoute
+>;
+
+export interface AuthParamsRoute {
+  title?: string;
+}
+
+interface Props {
+  navigation: AuthScreenNavigationProp;
+}
+
+const Auth = (props: Props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoginView, setIsLoginView] = useState(true);
@@ -32,7 +48,7 @@ const Auth = (props: any) => {
       OpenAPI.HEADERS = {
         Authorization: `Token ${response.token}`,
       };
-      props.navigation.navigate('MovieList');
+      props.navigation.navigate(MovieListRoute, { title: 'List of movies' });
     } catch (e) {
       console.error(e);
       Alert.alert('Error', JSON.stringify(e.body));
