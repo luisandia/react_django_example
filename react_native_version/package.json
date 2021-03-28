@@ -8,13 +8,15 @@
     "eject": "expo eject",
     "types:generate": "openapi --input ../backend/openapi-schema.yml --output ./Generated",
     "types:generate:nocore": "openapi --input ../backend/openapi-schema.yml --output ./Generated --exportCore false",
-    "format": "prettier '**/*.{ts,tsx,js,jsx,json,css}' --write"
+    "format": "prettier '**/*.{ts,tsx,js,jsx,json,css}' --write",
+    "format:eslint": "eslint --fix '**/*.{ts,tsx,js,jsx}'"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
     "@fortawesome/react-native-fontawesome": "^0.2.6",
     "@react-native-community/async-storage": "^1.12.1",
+    "@react-navigation/core": "^5.15.2",
     "@react-navigation/drawer": "^5.12.4",
     "@react-navigation/native": "^5.9.3",
     "@react-navigation/stack": "^5.14.3",

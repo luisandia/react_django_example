@@ -13,7 +13,6 @@ module.exports = {
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:import/typescript',
-    'prettier/@typescript-eslint',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -55,5 +54,6 @@ module.exports = {
     'react/prop-types': [OFF],
     camelcase: [ERROR, { ignoreDestructuring: true, properties: 'never' }],
     'global-require': [OFF],
+    'import/no-extraneous-dependencies': [ERROR, { devDependencies: true }],
   },
 };

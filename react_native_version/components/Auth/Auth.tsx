@@ -10,20 +10,15 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { ApiService, AuthService, OpenAPI } from '../Generated';
-import { StackParamList } from '../navigators/MainStackNavigator';
-import { MovieListRoute } from './MovieList';
+import { ApiService, AuthService, OpenAPI } from '../../Generated';
+import { StackParamList } from '../../navigators/routes';
+import { MovieListRoute } from '../MovieList/routes';
+import { authRouteName } from './routes';
 
-export const AuthRoute = 'Auth';
-
-type AuthScreenNavigationProp = StackNavigationProp<
+export type AuthScreenNavigationProp = StackNavigationProp<
   StackParamList,
-  typeof AuthRoute
+  typeof authRouteName
 >;
-
-export interface AuthParamsRoute {
-  title?: string;
-}
 
 interface Props {
   navigation: AuthScreenNavigationProp;

@@ -10,29 +10,23 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { ApiService, Movie } from '../Generated';
-import { StackParamList } from '../navigators/MainStackNavigator';
+import { ApiService } from '../../Generated';
+import { StackParamList } from '../../navigators/routes';
+import { MovieDetailRoute } from './routes';
 
-export const MovieDetailRoute = 'MovieDetail';
-
-type ProfileScreenNavigationProp = RouteProp<
+export type ProfileScreenNavigationProp = RouteProp<
   StackParamList,
   typeof MovieDetailRoute
 >;
-
-export interface MovieParamsRoute {
-  title: string;
-  movie: Movie;
-}
 
 interface Props {
   route: ProfileScreenNavigationProp;
 }
 
-const MovieDetail = (props: Props) => {
+export const MovieDetail = (props: Props) => {
   const [highlight, setHeighlight] = useState(-1);
-
-  const { movie } = props.route.params;
+  const { route } = props;
+  const { movie } = route.params;
   const avgRating = +movie?.avg_rating!;
 
   const rateClicked = async () => {
@@ -159,5 +153,3 @@ const styles = StyleSheet.create({
     color: '#ccc',
   },
 });
-
-export default MovieDetail;

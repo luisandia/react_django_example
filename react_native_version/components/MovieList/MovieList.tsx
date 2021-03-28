@@ -11,34 +11,25 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { ApiService, Movie } from '../Generated';
-import { useFetch } from '../hooks/useFetch';
-import { StackParamList } from '../navigators/MainStackNavigator';
-import { AuthRoute } from './Auth';
-import { MovieDetailRoute } from './MovieDetail';
-
-export const MovieListRoute = 'MovieList';
+import { ApiService, Movie } from '../../Generated';
+import { useFetch } from '../../hooks/useFetch';
+import { StackParamList } from '../../navigators/routes';
+import { authRoute } from '../Auth/routes';
+import { MovieDetailRoute } from '../MovieDetail/routes';
+import { MovieListRoute } from './routes';
 
 type ProfileScreenNavigationProp = StackNavigationProp<
   StackParamList,
   typeof MovieListRoute
 >;
 
-export interface MovieListParamsRoute {
-  title: string;
-  updateMovies(movie: Movie): void;
-}
-
 interface Props {
   navigation: ProfileScreenNavigationProp;
 }
 
-const MovieList = (props: Props) => {
+export const MovieList = (props: Props) => {
   const navigation = useNavigation();
-  const [movies, setMovies] = useState<any>([]);
-  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
-  const [editedMovie, setEditedMovie] = useState<Movie | null>(null);
-
+  const [movies, setMovies] = useState<Movie[]>([]);
   const [data, loading, error] = useFetch();
 
   useEffect(() => {
@@ -48,7 +39,7 @@ const MovieList = (props: Props) => {
         const response = await ApiService.listMovies();
         setMovies(response);
       } else {
-        props.navigation.navigate(AuthRoute);
+        props.navigation.navigate(...authRoute());
       }
     };
     getData();
@@ -57,23 +48,69 @@ const MovieList = (props: Props) => {
 
   useEffect(() => {
     setMovies(data);
-    props.navigation.setParams({ updateMovies });
+    props.navigation.setParams({ updateMovies, deleteMovies, createMovies });
   }, [data]);
 
-  const updateMovies = (movie: Movie) => {
-    setMovies([...movies, movie]);
+  const deleteMovies = async (movie: Movie) => {
+    try {
+      await ApiService.destroyMovie(movie.id!.toString());
+      const newMovies = movies.filter((mov: Movie) => mov.id !== movie.id);
+      setMovies([...newMovies]);
+      let i = 0;
+      while (i < movies.length) {
+        if (movies[i].id === movie.id) {
+          movies.splice(i, 1);
+          break;
+        } else {
+          i += 1;
+        }
+      }
+      props.navigation.navigate(MovieListRoute);
+    } catch (er) {
+      console.error(er);
+    }
+  };
+
+  const updateMovies = async (movie: Movie, newMovie: Movie) => {
+    try {
+      const response = await ApiService.updateMovie(
+        movie.id!.toString(),
+        newMovie,
+      );
+      const newMovies = movies.filter((mov: Movie) => mov.id !== movie.id);
+      setMovies([...newMovies, response]);
+      props.navigation.navigate(MovieDetailRoute, {
+        movie: response,
+        title: response.title,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const createMovies = async (movie: Movie) => {
+    try {
+      const response = await ApiService.createMovie(movie);
+      setMovies([...movies, response]);
+      props.navigation.navigate(MovieListRoute);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const movieClicked = (movie: Movie) => {
     navigation.navigate(MovieDetailRoute, {
       movie,
       title: movie.title,
+      deleteMovies,
+      updateMovies,
+      createMovies,
     });
   };
 
   const logoutUser = async () => {
     AsyncStorage.removeItem('mr-token');
-    props.navigation.navigate(AuthRoute);
+    props.navigation.navigate(...authRoute({}));
   };
 
   if (loading) {
@@ -87,7 +124,7 @@ const MovieList = (props: Props) => {
   return (
     <View>
       <Image
-        source={require('../assets/MR_logo.png')}
+        source={require('../../assets/MR_logo.png')}
         style={{ width: '100%', height: 135, paddingTop: 30 }}
       />
       <Button onPress={() => logoutUser()} title="Logout" />
@@ -125,5 +162,3 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
 });
-
-export default MovieList;

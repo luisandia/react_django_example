@@ -1,66 +1,33 @@
 import { RouteProp } from '@react-navigation/core';
-import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import { ApiService, Movie } from '../Generated';
-import { StackParamList } from '../navigators/MainStackNavigator';
-import { MovieDetailRoute } from './MovieDetail';
-import { MovieListRoute } from './MovieList';
-
-export const MovieEditRoute = 'MovieEdit';
-
-type MovieEditScreenNavigationProp = StackNavigationProp<
-  StackParamList,
-  typeof MovieEditRoute
->;
+import { Movie } from '../../Generated';
+import { StackParamList } from '../../navigators/routes';
+import { MovieEditRoute } from './routes';
 
 type MovieEditScreenRouteProp = RouteProp<
   StackParamList,
   typeof MovieEditRoute
 >;
 
-export interface MovieEditParamsRoute {
-  title: string;
-  movie: Movie;
-  updateMovies(movie: Movie): void;
-}
-
 interface Props {
-  navigation: MovieEditScreenNavigationProp;
   route: MovieEditScreenRouteProp;
 }
 
-const MovieEdit = (props: Props) => {
-  const { movie } = props.route.params;
+export const MovieEdit = (props: Props) => {
+  const { route } = props;
+  const { movie } = route.params;
   const [title, setTitle] = useState(movie.title);
   const [description, setDescription] = useState(movie.description);
 
   const saveMovie = async () => {
     if (movie.id) {
-      try {
-        const NewMovie: Movie = { title, description };
-        const response = await ApiService.updateMovie(
-          movie.id!.toString(),
-          NewMovie,
-        );
-        props.navigation.navigate(MovieDetailRoute, {
-          movie: response,
-          title: response.title,
-        });
-      } catch (err) {
-        console.error(err);
-      }
+      const newMovie: Movie = { title, description };
+      props.route.params.updateMovies(movie, newMovie);
     } else {
-      try {
-        const newMovie: Movie = { title, description };
-        const response = await ApiService.createMovie(newMovie);
-        props.route.params.updateMovies(response);
-
-        props.navigation.navigate(MovieListRoute);
-      } catch (err) {
-        console.error(err);
-      }
+      const newMovie: Movie = { title, description };
+      props.route.params.createMovies(newMovie);
     }
   };
 
@@ -84,8 +51,6 @@ const MovieEdit = (props: Props) => {
     </View>
   );
 };
-
-export default MovieEdit;
 
 const styles = StyleSheet.create({
   container: {

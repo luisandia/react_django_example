@@ -19,7 +19,7 @@ class MovieViewSet(viewsets.ModelViewSet):
     serializer_class = MovieSerializer
     authentication_classes = (TokenAuthentication, )
     permission_classes = (IsAuthenticated, )
-    permission_classes = (AllowAny, )
+    # permission_classes = (AllowAny, )
 
     @action(detail=True, methods=['POST'])
     def rate_movie(self, request, pk=None):

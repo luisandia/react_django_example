@@ -1817,7 +1817,7 @@
 
 "@react-navigation/core@^5.15.2":
   version "5.15.2"
-  resolved "https://registry.npmjs.org/@react-navigation/core/-/core-5.15.2.tgz"
+  resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-5.15.2.tgz#6aa374c7bcb6ffcaac8e2a7f8bdb2f9aba469b31"
   integrity sha512-jNSP0FMu1N6Pa1Slsy8b/JbmlTAXcVeXVwnxrEMVGWeiNqUVYl+tx1FuQAqi3q1m4cg9ygXkGsgLgRmnXAEC8g==
   dependencies:
     "@react-navigation/routers" "^5.7.2"
